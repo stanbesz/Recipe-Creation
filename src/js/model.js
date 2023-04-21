@@ -32,6 +32,7 @@ export const loadRecipe = async function(id){
     catch(err){
         //Temp error handling
         console.error(state.recipe);
+        throw err;
     }
 } 
 export const loadSearchResults = async function(query){
