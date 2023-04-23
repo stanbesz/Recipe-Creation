@@ -6,7 +6,7 @@ import {Fraction} from 'fractional';
 class RecipeView extends View{
     _parentElement = document.querySelector('.recipe');
     _errorMessage = `We could not find the desired recipe!Pleas try a different one!`;
-    _successMessage ='';
+    _successMessage = '';
     
     addHandlerRender(handler){
       ['hashchange','load'].forEach(ev=>window.addEventListener(ev,handler));
