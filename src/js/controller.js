@@ -2,18 +2,20 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 //import icons from '../${icons}.svg';//Parcel 1
 //import icons from 'url:../img/icons.svg';//Parcel 2
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-if(module.hot){
-  module.hot.accept();
-}
+// if(module.hot){
+//   module.hot.accept();
+// }
 
 //done by using an image and rotating it slowly 360 degrees
 const controlRecipe = async function(){
   try{
+    console.log("In control recipe!");
     resultsView.renderSpinner();
     console.log(resultsView);
     const id = window.location.hash.slice(1);
@@ -42,14 +44,27 @@ const controlSeachResults = async function(){
     await model.loadSearchResults(query);
     //3) Render results
     //console.log(model.state.search.results);
+    //resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
 
-    resultsView.render(model.state.search.results);
+    //4)Render initial pagination buttons
+    paginationView.render(model.state.search);
   }catch(err){
     console.log(err);
   }
 }
+
+const controlPagination = function(goToPage){
+    //3) Render NEW results
+    resultsView.render(model.getSearchResultsPage(goToPage));
+
+    //4)Render NEW initial pagination buttons
+    paginationView.render(model.state.search);
+}
+
 const init = function(){
   recipeView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSeachResults);
+  paginationView.addHandlerClick(controlPagination);
 }
 init();

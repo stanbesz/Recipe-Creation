@@ -1,5 +1,4 @@
 import icons from 'url:../../img/icons.svg';
-
 export default class View{
     _data;
     render(data){
@@ -11,6 +10,7 @@ export default class View{
         this._parentElement.insertAdjacentHTML('afterbegin',markup);
     }
     renderSpinner(){
+      console.log("Here");
         const markup = `
         <div class="spinner">
         <svg>
