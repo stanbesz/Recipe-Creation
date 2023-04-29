@@ -45,8 +45,6 @@ export default class View{
       this._parentElement.insertAdjacentHTML('afterbegin',markup);
     }
     update(data){
-      if(!data || (Array.isArray(data)&& data.length===0))
-         return this.renderError();
         this._data=data;
         const newMarkup = this._generateMarkup();
 
@@ -58,12 +56,12 @@ export default class View{
           const curEl = currentElements[i];
           //console.log(curEl,newEl.isEqualNode(curEl));
           //Updates changed Text
-          if(!newEl.isEqualNode(curEl) && curEl && newEl.firstChild?.nodeValue.trim()!==''){
+          if(!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim()!==''){
             //console.log('*',newEl.firstChild?.nodeValue.trim());//check value if it exists
             curEl.textContent = newEl.textContent;
           }
           //Update changed attributes
-          if(!newEl.isEqualNode(curEl) && curEl){ //changes attribute 
+          if(!newEl.isEqualNode(curEl)){ //changes attribute 
             console.log(Array.from(newEl.attributes));
             Array.from(newEl.attributes).forEach(attr => 
               curEl.setAttribute(attr.name,attr.value));//replace attributes from the new element into the currrent element
