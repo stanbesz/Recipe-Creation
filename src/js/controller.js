@@ -15,31 +15,37 @@ import 'regenerator-runtime/runtime';
 //done by using an image and rotating it slowly 360 degrees
 const controlRecipe = async function(){
   try{
-    console.log("In control recipe!");
-    resultsView.renderSpinner();
-    console.log(resultsView);
     const id = window.location.hash.slice(1);
-    console.log(id);
     
     if(!id)return;
-    //1. Load recipe
+
     recipeView.renderSpinner();
+
+    resultsView.update(model.getSearchResultsPage());
+    //1. Load recipe
     
     await model.loadRecipe(id);
-    
+    console.log(model.state.recipe);
     //2. Render recipe
     recipeView.render(model.state.recipe);
  
+    //Test
+    controlServings();
   }catch(err){
+    console.log(err);
     recipeView.renderError(`${err.message}💥💥💥💥`);
   }
 }
 
 const controlSeachResults = async function(){
   try{
+    resultsView.renderSpinner();
+
     //1) Get search query
     const query = searchView.getQuery();
-    if(!query) return;
+    if(!query) {
+      return;
+    }
     // 2) Load search results
     await model.loadSearchResults(query);
     //3) Render results
@@ -62,9 +68,19 @@ const controlPagination = function(goToPage){
     paginationView.render(model.state.search);
 }
 
+const controlServings = function(newServings){
+// Update the recipe servings (in state)
+model.updateServings(newServings);
+// update the recipe view
+//recipeView.render(model.state.recipe);
+recipeView.update(model.state.recipe);
+}
+
 const init = function(){
   recipeView.addHandlerRender(controlRecipe);
+  recipeView.addHandlerUpdateServings(controlServings)
   searchView.addHandlerSearch(controlSeachResults);
   paginationView.addHandlerClick(controlPagination);
+  //controlServings(); asynchronous pitfall - state not yet loaded
 }
 init();

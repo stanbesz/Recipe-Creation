@@ -4,7 +4,7 @@
   "description": "\"# Recipe-Creation\"",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Stanimir Aleksandrov",
   "license": "ISC",
@@ -16,6 +16,7 @@
   "dependencies": {
     "core-js": "^3.30.0",
     "fractional": "^1.0.0",
+    "fracty": "^1.0.11",
     "regenerator-runtime": "^0.13.11"
   }
 }
