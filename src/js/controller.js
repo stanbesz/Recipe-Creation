@@ -4,6 +4,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarkView from './views/bookmarkView.js';
+import addRecipeView from './views/addRecipeView.js';
 //import icons from '../${icons}.svg';//Parcel 1
 //import icons from 'url:../img/icons.svg';//Parcel 2
 import 'core-js/stable';
@@ -23,19 +24,19 @@ const controlRecipe = async function(){
     recipeView.renderSpinner();
 
     resultsView.update(model.getSearchResultsPage());
-    bookmarkView.update(model.state.bookmark);
     //1. Load recipe
     
     await model.loadRecipe(id);
     console.log(model.state.recipe);
     //2. Render recipe
     recipeView.render(model.state.recipe);
- 
+    
     //Test
     controlServings();
+    bookmarkView.update(model.state.bookmark);
   }catch(err){
     console.log(err);
-    recipeView.renderError(`${err.message}💥💥💥💥`);
+    recipeView.renderError();
   }
 }
 
@@ -95,12 +96,22 @@ const controlAddBookmark = function(){
   bookmarkView.render(model.state.bookmark);
 }
 
+const controlBookmarks = function(){
+  bookmarkView.render(model.state.bookmark);
+}
+
+const controlAddRecipe = function(newRecipe){
+  console.log(newRecipe);
+}
+
 const init = function(){
+  bookmarkView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSeachResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
   //controlServings(); asynchronous pitfall - state not yet loaded
 }
 init();

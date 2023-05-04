@@ -64,7 +64,6 @@ export const loadSearchResults = async function(query){
 
 export const getSearchResultsPage = function(page = state.search.page){
  state.search.page = page;
-  console.log(page);
  const start = (page -1) * state.search.resultsPerPage;// 0;
  const end = page * state.search.resultsPerPage;//9;
   return state.search.results.slice(start, end);
@@ -79,6 +78,10 @@ export const updateServings = function(newServings){
   console.log(state.recipe.servings);
 }
 
+const persistBookmarks = function(){
+  localStorage.setItem('bookmarks',JSON.stringify(state.bookmark))
+}
+
 export const addBookmark = function(recipe){
   //add bookmark
   state.bookmark.push(recipe);
@@ -87,6 +90,7 @@ export const addBookmark = function(recipe){
   if(recipe.id === state.recipe.id){
     state.recipe.bookmarked = true;
   }
+  persistBookmarks();
 }
 
 export const deleteBookmark = function(id){
@@ -98,4 +102,18 @@ export const deleteBookmark = function(id){
   if(id === state.recipe.id){
     state.recipe.bookmarked = false;
   }
+  persistBookmarks();
 }
+
+const init = function(){
+  const storage = localStorage.getItem('bookmarks');
+  if(storage) state.bookmark = JSON.parse(storage);
+}
+
+init();
+console.log(state.bookmark);
+
+const clearBookmarks = function(){
+  localStorage.clear('bookmarks');
+}
+//clearBookmarks();

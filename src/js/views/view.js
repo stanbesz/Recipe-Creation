@@ -62,7 +62,6 @@ export default class View{
           }
           //Update changed attributes
           if(!newEl.isEqualNode(curEl)){ //changes attribute 
-            console.log(Array.from(newEl.attributes));
             Array.from(newEl.attributes).forEach(attr => 
               curEl.setAttribute(attr.name,attr.value));//replace attributes from the new element into the currrent element
             //console.log(newEl.attributes);
