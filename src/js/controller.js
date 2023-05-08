@@ -28,7 +28,7 @@ const controlRecipe = async function(){
     //1. Load recipe
     
     await model.loadRecipe(id);
-    console.log(model.state.recipe);
+    //console.log(model.state.recipe);
     //2. Render recipe
     recipeView.render(model.state.recipe);
     
@@ -52,7 +52,7 @@ const controlSeachResults = async function(){
     // 2) Load search results
     await model.loadSearchResults(query);
     //3) Render results
-    console.log(model.state.search.results);
+    //console.log(model.state.search.results);
     //resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
@@ -85,10 +85,10 @@ const controlAddBookmark = function(){
     model.addBookmark(model.state.recipe);
   }
   else{
-    console.log("Remove bookmark");
+    //console.log("Remove bookmark");
     model.deleteBookmark(model.state.recipe.id);
   }
-  console.log(model.state.recipe);
+  //console.log(model.state.recipe);
   //Update recipeView to display if added/remove bookmark
   recipeView.update(model.state.recipe);
 
@@ -102,14 +102,14 @@ const controlBookmarks = function(){
 
 const controlAddRecipe = async function(newRecipe){
   try{
-    console.log(newRecipe);
+    //console.log(newRecipe);
     //show loading spinner
     addRecipeView.renderSpinner();
 
     //upload recipe
     debugger;
     await model.uploadRecipe(newRecipe);
-    console.log(model.state.recipe);
+    //console.log(model.state.recipe);
 
     //Render new recipe
     recipeView.render(model.state.recipe);
@@ -139,6 +139,7 @@ const init = function(){
   searchView.addHandlerSearch(controlSeachResults);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
+  console.log("Welcome to the site!");
   //controlServings(); asynchronous pitfall - state not yet loaded
 }
 init();

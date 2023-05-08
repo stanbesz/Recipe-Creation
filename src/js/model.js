@@ -14,7 +14,7 @@ export const state = {
 
 const createRecipeObject = function(data){
   const {recipe} = data.data;
-  console.log(recipe.key);
+  //console.log(recipe.key);
   return {
       id:recipe.id,
       title: recipe.title,
@@ -36,7 +36,7 @@ export const loadRecipe = async function(id){
     const data = await callAJAX(`${API_URL}${id}?key=${API_KEY}`);
         // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcfcc'
       state.recipe = createRecipeObject(data);
-      console.log(data)
+      //console.log(data)
       if(state.bookmark.some(bookmark=>bookmark.id===id)){
         state.recipe.bookmarked=true;
       }
@@ -46,7 +46,7 @@ export const loadRecipe = async function(id){
     }
     catch(err){
         //Temp error handling
-        console.error(state.recipe);
+        //console.error(state.recipe);
         throw err;
     }
 } 
@@ -55,7 +55,7 @@ export const loadSearchResults = async function(query){
     state.search.query = query;
 
     const data = await callAJAX(`${API_URL}?search=${query}&key=${API_KEY}`);
-    console.log(data);
+    //console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -86,7 +86,7 @@ export const updateServings = function(newServings){
     ing.quantity = (+ing.quantity * +newServings) / state.recipe.servings;
   });
   state.recipe.servings = +newServings;
-  console.log(state.recipe.servings);
+  //console.log(state.recipe.servings);
 }
 
 const persistBookmarks = function(){
@@ -122,7 +122,7 @@ const init = function(){
 }
 
 init();
-console.log(state.bookmark);
+//console.log(state.bookmark);
 
 const clearBookmarks = function(){
   localStorage.clear('bookmarks');
