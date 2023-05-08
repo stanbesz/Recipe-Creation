@@ -69,10 +69,10 @@
             </div>
           </div>
         
-          <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
+          <div class="recipe__user-generated ${this._data.key ? '':'hidden'}">
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>
           </div>
           <button class="btn--round btn--bookmark">
             <svg class="">

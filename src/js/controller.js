@@ -1,4 +1,5 @@
 import * as model from './model.js';
+import {MODAL_CLOSE_ESC} from './config.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -31,8 +32,6 @@ const controlRecipe = async function(){
     //2. Render recipe
     recipeView.render(model.state.recipe);
     
-    //Test
-    controlServings();
     bookmarkView.update(model.state.bookmark);
   }catch(err){
     console.log(err);
@@ -49,10 +48,11 @@ const controlSeachResults = async function(){
     if(!query) {
       return;
     }
+    //debugger;
     // 2) Load search results
     await model.loadSearchResults(query);
     //3) Render results
-    //console.log(model.state.search.results);
+    console.log(model.state.search.results);
     //resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
@@ -100,8 +100,35 @@ const controlBookmarks = function(){
   bookmarkView.render(model.state.bookmark);
 }
 
-const controlAddRecipe = function(newRecipe){
-  console.log(newRecipe);
+const controlAddRecipe = async function(newRecipe){
+  try{
+    console.log(newRecipe);
+    //show loading spinner
+    addRecipeView.renderSpinner();
+
+    //upload recipe
+    debugger;
+    await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
+
+    //Render new recipe
+    recipeView.render(model.state.recipe);
+
+    addRecipeView.renderMessage();
+
+    //Render new bookmarks
+    bookmarkView.render(model.state.bookmark);
+
+    //Change ID in URL
+    window.history.pushState(null,'',`${model.state.recipe.id}`)
+    //close form window
+    setTimeout(function(){
+      addRecipeView.toggleWindow()
+    },MODAL_CLOSE_ESC*1000);
+  } catch(err){
+    console.error('Error in UploadRecipe:',err);
+    addRecipeView.renderError(err.message);
+  }
 }
 
 const init = function(){
